@@ -49,14 +49,15 @@ public class FXMLController {
 
     @FXML
     void doStatistiche(ActionEvent event) {
-    String vicini= boxLocalizzazione.getValue();
+    String vicini=boxLocalizzazione.getValue();
     List<String> adiacenti= model.getAdiacenza(vicini);
-   int peso=0;
-   txtResult.setText("Adiacenti a "+vicini+"\n\n");
+    int peso=0;
+    txtResult.setText("Adiacenti a "+vicini+"\n\n");
     for (String s: adiacenti) {
-    	peso=this.model.pesoGrafo(vicini, s);
+    	peso= this.model.pesoGrafo(vicini,s);
     	txtResult.appendText(s+"\t\t"+peso+"\n");
     }
+    
     }
 
     @FXML
@@ -75,9 +76,7 @@ public class FXMLController {
 		txtResult.appendText("Grafo creato!\n");
 		txtResult.appendText("VERTICI: "+this.model.nVertici()+"\n");
     	txtResult.appendText("ARCHI: "+this.model.nArchi()+"\n");
-    	
-    	boxLocalizzazione.getItems().clear();
-    	boxLocalizzazione.getItems().addAll(this.model.getVertici());
-		
+		boxLocalizzazione.getItems().clear();
+		boxLocalizzazione.getItems().addAll(model.addVertici());
 	}
 }

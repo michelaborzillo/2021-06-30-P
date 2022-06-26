@@ -41,10 +41,10 @@ public class GenesDao {
 	}
 	
 
-	public List<String> getVertici() {
-		String sql="SELECT distinct Localization "
-				+ "FROM classification";
-		
+				
+	public List<String> getVertici () {
+		String sql="SELECT distinct c.Localization AS localization "
+				+ "FROM classification c";
 		List<String> result= new ArrayList<String>();
 		Connection conn = DBConnect.getConnection();
 
@@ -52,9 +52,12 @@ public class GenesDao {
 			PreparedStatement st = conn.prepareStatement(sql);
 			ResultSet res = st.executeQuery();
 			while (res.next()) {
-				String s= new String(res.getString("Localization"));
+
+				String s= res.getString("localization");
 				result.add(s);
+				
 			}
+			
 			res.close();
 			st.close();
 			conn.close();
@@ -63,17 +66,14 @@ public class GenesDao {
 		} catch (SQLException e) {
 			throw new RuntimeException("Database error", e) ;
 		}
-				
 		
 	}
-	
-	
+
 	public int getPeso (String loc1, String loc2) {
 		String sql="SELECT COUNT(DISTINCT i.`Type`) AS peso "
 				+ "FROM interactions i, classification c1, classification c2 "
 				+ "WHERE c1.GeneID=i.GeneID1 AND c2.GeneID=i.GeneID2  AND (c2.Localization=? OR c1.Localization=?) AND (c1.Localization=? OR c2.Localization=?)";
 		int peso=0;
-		
 		try {
 			Connection conn = DBConnect.getConnection();
 			PreparedStatement st = conn.prepareStatement(sql);
@@ -94,7 +94,6 @@ public class GenesDao {
 		}
 				
 	}
-
 	
 	
 	
